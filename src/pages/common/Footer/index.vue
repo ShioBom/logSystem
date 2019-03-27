@@ -12,7 +12,7 @@ export default {
 </script>
 <style lang="scss" scoped>
     .frontpage{
-        background: skyblue;
+        background:yellowgreen;
         position: absolute;
         bottom: 0;
         left: 0;
