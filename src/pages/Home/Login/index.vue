@@ -29,7 +29,7 @@ export default {
       params.append("uname", this.uname);
       params.append("password", this.password);
       this.$axios
-        .post("http://localhost:30001/LogSystem/login", params)
+        .post("http://192.168.137.1:30001/LogSystem/login", params)
         .then(res => {
           if (res.data.keycode === 200) {
             this.$router.push("/index");
