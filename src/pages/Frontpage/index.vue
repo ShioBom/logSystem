@@ -84,9 +84,6 @@ export default {
         height: 1rem;
         
     }
-    .wh_content_item>.wh_isMark{
-        z-index: 1000;
-    }
     dl{
         height: 1rem;
         display: flex;

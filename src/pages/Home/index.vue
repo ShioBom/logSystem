@@ -3,8 +3,8 @@
         <div class="logo">
             <div class="logo_img">logo</div>
             <nav>
-                <span :class="logStatus" @click="login()">登录</span>
-                <span :class="regiStatus" @click="register()">注册</span>
+                <span :class="logStatus" @click="login">登录</span>
+                <span :class="regiStatus" @click="register">注册</span>
             </nav>
         </div>
         <Login v-if="logStatus==='active'"></Login>
@@ -27,6 +27,7 @@ export default {
         login(){
             this.logStatus="active";
             this.regiStatus="";
+            console.log("123");
         },
         register(){
             this.regiStatus="active";
