@@ -1,9 +1,21 @@
 <template>
     <div class="register">
         <ul>
-            <li><span>★</span><input type="text" placeholder="请输入用户名"></li>
-            <li><span>★</span><input type="text" placeholder="请输入验证码"></li>
-            <li><span>★</span><input type="text" placeholder="请输入密码"></li>
+            <li><span>★</span><input type="text" placeholder="请输入用户名" @input="getUname($event)"></li>
+            <li><span>★</span><input type="text" placeholder="请输入密码" @input="getPass($event)"></li>
+            <li><span>★</span><input type="text" placeholder="请再次输入密码" @input="getPass($event)"></li>
+            <!-- <li><span>★</span><input type="radio" name = "人事部" placeholder="请选择部门" @input="getDepartment($event)"></li> -->
+            <li>
+                <span>★</span>
+               <select name = "department_id" @input="getDepartment_id($event)">
+                   <option value=10001>10001 人事部 </option>
+                   <option value=10002>10002 研发部 </option>
+                   <option value=10003>10003 销售部 </option>
+                </select>
+            </li>
+
+            <li><span>★</span></li>
+
         </ul>
         <div class="btn">注册</div>
     </div>

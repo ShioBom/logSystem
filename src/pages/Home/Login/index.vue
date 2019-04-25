@@ -1,56 +1,90 @@
 <template>
-    <div class="login">
-        <ul>
-            <li><span>★</span><input type="text" placeholder="请输入用户名"></li>
-            <li><span>★</span><input type="text" placeholder="请输入密码"></li>
-        </ul>
-        <div class="btn" @click="login()">登录</div>
-    </div>
+  <div class="login">
+    <ul>
+      <li>
+        <span>★</span>
+        <input type="text" placeholder="请输入用户名" @input="getUname($event)">
+      </li>
+      <li>
+        <span>★</span>
+        <input type="text" placeholder="请输入密码" @input="getPass($event)">
+      </li>
+    </ul>
+    <div class="btn" @click="login()">登录</div>
+  </div>
 </template>
 <script>
 export default {
-    methods: {
-        login(){
+  data() {
+    return {
+      uname: "",
+      password: ""
+    };
+  },
+  methods: {
+    login() {
+      console.log(this.uname, this.password);
+      // let obj ={uname:'helin',password:'123456789'};
+      let params = new URLSearchParams();
+      params.append("uname", this.uname);
+      params.append("password", this.password);
+      this.$axios
+        .post("http://localhost:30001/LogSystem/login", params)
+        .then(res => {
+          if (res.data.keycode === 200) {
             this.$router.push("/index");
-        }
+          }else if(res.data.keycode === 201){
+            //用户名或密码错误
+          }else if(res.data.keycode === 203){
+            //等待审核
+          }
+        });
     },
-}
+    getUname(e) {
+      this.uname = e.target.value;
+    },
+    getPass(e) {
+      this.password = e.target.value;
+    }
+  },
+  mounted() {}
+};
 </script>
 <style lang="scss" scoped>
-   .login{
-       height: 2.47rem;
-       width: 100%;
-       display: flex;
-       flex-direction: column;
-       justify-content: space-around;
-       align-items: center;
-   }
-   ul{
-       border: 1px solid #ccc;
-       border-bottom: 0;
-   }
-   ul li{
-       width: 3rem;
-       border-bottom: 1px solid #ccc;
-       height: .4rem;
-   }
-   span{
-       text-align: center;
-       display: inline-block;
-       height: .38rem;
-       width:.38rem;
-       border:0;
-   }
-   input{
-       height: .38rem;
-       border:0
-   }
-   .btn{
-       width: 3rem;
-       background: #ff7970;
-       color: white;
-       height: .35rem;
-       text-align: center;
-       line-height: .35rem
-   }
+.login {
+  height: 2.47rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+ul {
+  border: 1px solid #ccc;
+  border-bottom: 0;
+}
+ul li {
+  width: 3rem;
+  border-bottom: 1px solid #ccc;
+  height: 0.4rem;
+}
+span {
+  text-align: center;
+  display: inline-block;
+  height: 0.38rem;
+  width: 0.38rem;
+  border: 0;
+}
+input {
+  height: 0.38rem;
+  border: 0;
+}
+.btn {
+  width: 3rem;
+  background: #ff7970;
+  color: white;
+  height: 0.35rem;
+  text-align: center;
+  line-height: 0.35rem;
+}
 </style>
