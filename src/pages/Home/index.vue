@@ -9,7 +9,6 @@
         </div>
         <Login v-if="logStatus==='active'"></Login>
         <Register v-if="regiStatus==='active'"></Register>
-        <div class="footer"></div>
     </div>
 </template>
 <script>
@@ -107,15 +106,10 @@ export default {
       bottom: -20px;
       left:5px;
   }
-  .footer{
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      height: 2rem;
-      width: 100%;
+  .home{
       background-image: url(../../assets/img/home/E2AA953F05139E525C7A0371C344BDFD.jpg);
       background-position: bottom left;
-      background-size: 100% 100%;
+      background-size: 100% 2rem;
       background-repeat: no-repeat;
   }
 </style>

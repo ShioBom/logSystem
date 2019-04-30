@@ -7,7 +7,7 @@ import './assets/js/rem.js'
 import './assets/css/fontstyles.css'
 import  router from './router/index.js';
 Vue.prototype.$axios = axios;
-axios.defaults.baseURL="localhost:8080";
+axios.defaults.baseURL="http://localhost:30001";
 new Vue({
   el: '#app',
   axios,

@@ -1,64 +1,142 @@
 <template>
-    <div class="register">
-        <ul>
-            <li><span>★</span><input type="text" placeholder="请输入用户名" @input="getUname($event)"></li>
-            <li><span>★</span><input type="text" placeholder="请输入密码" @input="getPass($event)"></li>
-            <li><span>★</span><input type="text" placeholder="请再次输入密码" @input="getPass($event)"></li>
-            <!-- <li><span>★</span><input type="radio" name = "人事部" placeholder="请选择部门" @input="getDepartment($event)"></li> -->
-            <li>
-                <span>★</span>
-               <select name = "department_id" @input="getDepartment_id($event)">
-                   <option value=10001>10001 人事部 </option>
-                   <option value=10002>10002 研发部 </option>
-                   <option value=10003>10003 销售部 </option>
-                </select>
-            </li>
-
-            <li><span>★</span></li>
-
-        </ul>
-        <div class="btn">注册</div>
-    </div>
+  <div class="register">
+    <ul>
+      <li>
+        <span>★</span>
+        <input type="text" placeholder="请输入用户名" @input="getUname($event)">
+      </li>
+      <li>
+        <span>★</span>
+        <input type="text" placeholder="请输入密码">
+      </li>
+      <li>
+        <span>★</span>
+        <input type="text" placeholder="请再次输入密码" @input="getPass($event)">
+      </li>
+      <li>
+        <span>★</span>
+        <input type="text" placeholder="请输入真实姓名" @input="getRealName($event)">
+      </li>
+      <!-- <li><span>★</span><input type="radio" name = "人事部" placeholder="请选择部门" @input="getDepartment($event)"></li> -->
+      <li class="radio">
+        <label for>请选择部门</label>
+        <div>
+          <label>
+            <input @click="getDepartValue($event)" type="radio" name="department_id" value="10001">人事部
+          </label>
+          <label>
+            <input @click="getDepartValue($event)" type="radio" name="department_id" value="10002">研发部
+          </label>
+        </div>
+      </li>
+      <li class="radio">
+        <label for>请选择职位</label>
+        <div>
+          <label>
+            <input type="radio" @click="getJobValue($event)" name="position" value="0">普通
+          </label>
+          <label>
+            <input type="radio" @click="getJobValue($event)" name="position" value="1">部门经理
+          </label>
+        </div>
+      </li>
+    </ul>
+    <div class="btn" @click="register">注册</div>
+  </div>
 </template>
 <script>
 export default {
-    
-}
+    data(){
+        return{
+            user:{
+                uname:"",
+                password:"",
+                department_id:"",
+                position:"",
+                realname:"",
+            }
+        }
+    },
+  methods: {
+    getJobValue(e) {
+        this.user.position = e.target.value;
+    },
+    getUname(e) {
+      this.user.uname = e.target.value;
+    },
+    getPass(e) {
+      this.user.password = e.target.value;
+    },
+    getRealName(e){
+      this.user.realname = e.target.value;
+    },
+    getDepartValue(e){
+        this.user.department_id=e.target.value;
+    },
+    register(){
+         let params = new URLSearchParams();
+         params.append("uname", this.user.uname);
+         params.append("password", this.user.password);
+         params.append("realname", this.user.realname);
+         params.append("department_id", this.user.department_id);
+         params.append("position", this.user.position);
+
+        this.$axios
+            .post("/LogSystem/adduser", params)
+           
+            .then(res=>{
+            console.log(res.data);
+            
+        });
+    }
+  }
+};
 </script>
 <style lang="scss" scoped>
-   .register{
-       height: 2.47rem;
-       width: 100%;
-       display: flex;
-       flex-direction: column;
-       justify-content: space-around;
-       align-items: center;
-   }
-   ul{
-       border: 1px solid #ccc;
-       border-bottom: 0;
-   }
-   ul li{
-       width: 3rem;
-       border-bottom: 1px solid #ccc;
-       height: .4rem;
-   }
-   span{
-       text-align: center;
-       display: inline-block;
-       height: .4rem;
-       width:.4rem;
-   }
-   input{
-       height: .4rem;
-       border:0
-   }
-   .btn{
-       width: 3rem;
-       background: #ff7970;
-       color: white;
-       height: .35rem;
-       text-align: center;
-       line-height: .35rem
-   }
+.register {
+  padding-top: 0.1rem;
+  z-index: 1000;
+  height: 250px;
+  overflow: hidden;
+  overflow-y: scroll;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+ul li {
+  width: 3rem;
+  border: 1px solid #ccc;
+  height: auto;
+}
+span {
+  text-align: center;
+  display: inline-block;
+  height: 0.4rem;
+  width: 0.4rem;
+}
+input {
+  height: 0.4rem;
+  border: 0;
+}
+.radio {
+  div {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  border: 0;
+  padding: 0.1rem;
+  label {
+    display: block;
+  }
+}
+.btn {
+  width: 3rem;
+  background: #ff7970;
+  color: white;
+  height: 0.35rem;
+  text-align: center;
+  line-height: 0.35rem;
+}
 </style>
