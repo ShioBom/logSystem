@@ -10,13 +10,14 @@ export default {
 </script>
 <style lang="scss" scoped>
     .frontpage{
-        background: yellowgreen;
+        color: white;
+        background:#007880;
         position: absolute;
         top: 0;
         left: 0;
         height: .6rem;
         width: 100%;
         text-align: center;
-        line-height: .5rem
+        line-height: .6rem
     }
 </style>

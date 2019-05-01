@@ -24,8 +24,6 @@ export default {
   },
   methods: {
     login() {
-      console.log(this.uname, this.password);
-      // let obj ={uname:'helin',password:'123456789'};
       let params = new URLSearchParams();
       params.append("uname", this.uname);
       params.append("password", this.password);
@@ -33,6 +31,7 @@ export default {
         .post("/LogSystem/login", params)
         .then(res => {
           if (res.data.keycode === 200) {
+            sessionStorage.setItem("userInfo",JSON.stringify(res.data.result));
             this.$router.push("/index");
           }else if(res.data.keycode === 201){
             //用户名或密码错误

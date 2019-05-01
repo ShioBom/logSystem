@@ -133,6 +133,7 @@ export default {
       //用户注册
       this.$axios.post("/LogSystem/adduser", params).then(res => {
         if(res.data.keycode===200){
+          Toast(res.data.message);
           this.$router.push("/login");
         }else{
           Toast(res.data.message);

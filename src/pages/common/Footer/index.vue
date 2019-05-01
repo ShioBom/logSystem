@@ -12,7 +12,7 @@ export default {
 </script>
 <style lang="scss" scoped>
     .frontpage{
-        background:yellowgreen;
+        background:#007880;
         position: absolute;
         bottom: 0;
         left: 0;
@@ -21,5 +21,11 @@ export default {
         display: flex;
         align-items: center;
         justify-content: space-around;
+        a{
+            color: white;
+        }
+        .router-link-exact-active{
+            color:#8bffff
+        }
     }
 </style>
