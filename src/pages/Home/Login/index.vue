@@ -31,7 +31,7 @@ export default {
         .post("/LogSystem/login", params)
         .then(res => {
           if (res.data.keycode === 200) {
-            sessionStorage.setItem("userInfo",JSON.stringify(res.data.result));
+            sessionStorage.setItem("userInfo",JSON.stringify(res.data.data));
             this.$router.push("/index");
           }else if(res.data.keycode === 201){
             //用户名或密码错误

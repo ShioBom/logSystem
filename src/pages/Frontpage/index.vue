@@ -35,7 +35,7 @@
         <Calendar :markDate="signedDate" v-on:choseDay="clickDay"></Calendar>
       </div>
       <div class="signIn_btn">
-        <mt-button @click="sign">签到</mt-button>
+        <mt-button @click="sign">{{isSigned()?"签到":"已签到"}}</mt-button>
       </div>
     </div>
     <Footer></Footer>
@@ -51,7 +51,8 @@ export default {
       title: "首页",
       signedDate: [],
       date: "",
-      user: {}
+      user: {},
+      flag:false,
     };
   },
   components: { Footer, Header, Calendar },
@@ -60,7 +61,7 @@ export default {
       this.date = data; //选中某天
     },
     sign() {
-      if (this.isSigned()) {
+      if (!this.isSigned()) {
         this.addSignData();
       }
     },
@@ -84,9 +85,11 @@ export default {
       this.$axios.post("/LogSystem/judgesign", params).then(res => {
         if (res.data.keycode === 200) {
           //已经签到
-          return true;
+          this.flag=true;
+
+          return this.flag;
         } else {
-          return false;
+          return this.flag;
         }
       });
     },
