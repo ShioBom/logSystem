@@ -34,21 +34,13 @@
       <li class="radio">
         <label for>请选择部门</label>
         <div>
-          <label>
+          <label v-for="(item,ind) in departments" :key="ind">
             <input
               @click="getDepartValue($event)"
               type="radio"
               name="department_id"
-              value="10001"
-            />人事部
-          </label>
-          <label>
-            <input
-              @click="getDepartValue($event)"
-              type="radio"
-              name="department_id"
-              value="10002"
-            />研发部
+              value="item.id"
+            />{{item.dname}}
           </label>
         </div>
       </li>
@@ -89,6 +81,7 @@ export default {
         position: "",
         realname: ""
       },
+      departments:[],
       uname_msg: "用户名合法"
     };
   },
@@ -125,7 +118,13 @@ export default {
           Toast(this.uname_msg);
         });
     },
-
+    requestDepart(){
+      this.$axios.get("/LogSystem/findalldepartment").then(res=>{
+        if(res.data.keycode===200){
+          this.departments = res.data.data;
+        }
+      })
+    },
     register() {
       let params = new URLSearchParams();
       params.append("uname", this.user.uname);
