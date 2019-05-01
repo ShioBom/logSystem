@@ -14,6 +14,7 @@
   </div>
 </template>
 <script>
+import {Toast} from 'mint-ui';
 export default {
   data() {
     return {
@@ -35,8 +36,10 @@ export default {
             this.$router.push("/index");
           }else if(res.data.keycode === 201){
             //用户名或密码错误
+            Toast(res.data.message);
           }else if(res.data.keycode === 203){
             //等待审核
+            Toast(res.data.message);
           }
         });
     },
