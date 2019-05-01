@@ -39,7 +39,7 @@
               @click="getDepartValue($event)"
               type="radio"
               name="department_id"
-              value="item.id"
+              :value="item.department_id"
             />{{item.dname}}
           </label>
         </div>
@@ -82,7 +82,6 @@ export default {
         realname: ""
       },
       departments:[],
-      uname_msg: "用户名合法"
     };
   },
   methods: {
@@ -108,15 +107,12 @@ export default {
       let params = new URLSearchParams();
       params.append("uname", this.user.uname);
       this.$axios
-        .post("/LogSystem/finduserbyname", params)
+        .post("/LogSystem/unameexist", params)
         .then(res => {
-          if (res.data.keycode === 200) {
-            this.uname_msg = "该用户名已经存在";
+          if (res.data.keycode === 201) {
+            Toast(res.data.message)
           }
         })
-        .then(() => {
-          Toast(this.uname_msg);
-        });
     },
     requestDepart(){
       this.$axios.get("/LogSystem/findalldepartment").then(res=>{
@@ -132,6 +128,8 @@ export default {
       params.append("realname", this.user.realname);
       params.append("department_id", this.user.department_id);
       params.append("position", this.user.position);
+      console.log(this.user);
+      
       //用户注册
       this.$axios.post("/LogSystem/adduser", params).then(res => {
         if(res.data.keycode===200){
@@ -141,6 +139,9 @@ export default {
         }
       });
     }
+  },
+  mounted(){
+    this.requestDepart();
   }
 };
 </script>
