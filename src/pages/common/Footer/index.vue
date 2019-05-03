@@ -1,8 +1,8 @@
 <template>
-    <div class="frontpage">
+    <div class="footer">
         <router-link to="/index">首页</router-link>
         <router-link to="/message">消息</router-link>
-        <router-link to="/mine">我的</router-link>
+        <router-link to="/UserInfo">我的</router-link>
     </div>
 </template>
 <script>
@@ -11,7 +11,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-    .frontpage{
+    .footer{
         background:#007880;
         position: absolute;
         bottom: 0;

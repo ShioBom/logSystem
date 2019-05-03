@@ -1,20 +1,25 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
   </div>
 </template>
 
 <script>
+import Footer from "./pages/common/Footer";
 export default {
-  name: 'app',
-}
+  name: "app",
+  components: { Footer }
+};
 </script>
 
 <style lang="scss">
-html,body{
+html,
+body {
   height: 100%;
 }
-#app{
+#app {
   height: 100%;
   width: 100%;
 }

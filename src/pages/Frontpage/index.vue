@@ -4,28 +4,36 @@
     <!-- 菜单栏 -->
     <div class="menu">
       <div>
-        <dl>
-          <dt><img src="../../assets/img/index/log.jpg" alt="" /></dt>
-          <dd>工作日志</dd>
-        </dl>
+        <router-link to="/WorkLog"
+          ><dl>
+            <dt><img src="../../assets/img/index/log.jpg" alt="" /></dt>
+            <dd>工作日志</dd>
+          </dl>
+        </router-link>
       </div>
       <div>
+       <router-link to="/Bulletin">
         <dl>
           <dt><img src="../../assets/img/index/inform.jpg" alt="" /></dt>
           <dd>公告</dd>
         </dl>
+       </router-link>
       </div>
       <div>
+       <router-link to="/Examine">
         <dl>
           <dt><img src="../../assets/img/index/approve.jpg" alt="" /></dt>
           <dd>在线审批</dd>
         </dl>
+       </router-link>
       </div>
       <div>
+       <router-link to="/StaffManage">
         <dl>
           <dt><img src="../../assets/img/index/contacts.jpg" alt="" /></dt>
           <dd>员工管理</dd>
         </dl>
+       </router-link>
       </div>
     </div>
     <!-- 日历签到组件 -->
@@ -35,7 +43,9 @@
         <Calendar :markDate="signedDate" v-on:choseDay="clickDay"></Calendar>
       </div>
       <div class="signIn_btn">
-        <mt-button @click="sign">{{isSigned()?"签到":"已签到"}}</mt-button>
+        <mt-button @click="sign">{{
+          isSigned() ? "签到" : "已签到"
+        }}</mt-button>
       </div>
     </div>
     <Footer></Footer>
@@ -52,10 +62,10 @@ export default {
       signedDate: [],
       date: "",
       user: {},
-      flag:false,
+      flag: false
     };
   },
-  components: { Footer, Header, Calendar },
+  components: { Header,Footer, Calendar },
   methods: {
     clickDay(data) {
       this.date = data; //选中某天
@@ -72,7 +82,7 @@ export default {
       this.$axios.post("/LogSystem/findsignbyname", params).then(res => {
         if (res.data.keycode === 200) {
           res.data.data.forEach(item => {
-              let date = item.date.replace(/\-/g,"/")
+            let date = item.date.replace(/\-/g, "/");
             this.signedDate.push(date);
           });
         }
@@ -85,8 +95,7 @@ export default {
       this.$axios.post("/LogSystem/judgesign", params).then(res => {
         if (res.data.keycode === 200) {
           //已经签到
-          this.flag=true;
-
+          this.flag = true;
           return this.flag;
         } else {
           return this.flag;
@@ -111,10 +120,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.frontpage {
-  height: 100%;
-  width: 100%;
-}
 .menu {
   position: absolute;
   top: 0.6rem;
@@ -158,7 +163,7 @@ span {
   display: inline-block;
   height: 0.3rem;
   width: 1rem;
-  color: brown;
+  color: skyblue;
   border: 4px solid palevioletred;
   line-height: 0.3rem;
   text-align: center;
@@ -169,7 +174,7 @@ span {
   display: inline-block;
   height: 0.2rem;
   width: 1rem;
-  color: brown;
+  color: #49beb7;
   line-height: 0.2rem;
   text-align: center;
 }
