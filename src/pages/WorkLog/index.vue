@@ -39,6 +39,7 @@
   </div>
 </template>
 <script>
+import {Toast} from 'mint-ui';
 import Vue from "vue";
 import Header from "../common/Header";
 import Navbar from "mint-ui/lib/navbar";
@@ -49,8 +50,6 @@ import TabContainer from "mint-ui/lib/tab-container";
 import "mint-ui/lib/tab-container/style.css";
 import TabContainerItem from "mint-ui/lib/tab-container-item";
 import "mint-ui/lib/tab-container-item/style.css";
-import InfiniteScroll from "mint-ui/lib/infinite-scroll";
-import "mint-ui/lib/infinite-scroll/style.css";
 import Field from "mint-ui/lib/field";
 import "mint-ui/lib/field/style.css";
 
