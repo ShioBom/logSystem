@@ -52,6 +52,7 @@ import TabContainerItem from "mint-ui/lib/tab-container-item";
 import "mint-ui/lib/tab-container-item/style.css";
 import Field from "mint-ui/lib/field";
 import "mint-ui/lib/field/style.css";
+import {Toast} from 'mint-ui';
 
 Vue.use(Field);
 Vue.component(Field.name, Field);
@@ -65,8 +66,9 @@ export default {
   data() {
     return {
       title: "工作日志",
-      selected: JSON.parse(sessionStorage("userInfo")).position!==0?true:false,
-      userStatus: true,
+      user:{},
+      selected: "1",
+      userStatus: JSON.parse(sessionStorage.getItem("userInfo")).position!==0?true:false,
       ownlogs: [
       ],
       logs: [],
@@ -109,19 +111,13 @@ export default {
     }
   },
   mounted() {
+    this.user = JSON.parse(sessionStorage.getItem("userInfo"));
     this.queryOwnLogs();
+    this.queryStaffLogs();//请求员工日志数据
     console.log(this.logtext);
     //初始化滚动条
     setTimeout(() => {}, 1000);
   },
-  updated() {
-    if (this.selected === 1) {
-      this.queryOwnLogs();
-    } else if (this.selected === 2) {
-      this.queryStaffLogs();//请求员工日志数据
-    }
-    console.log(this.selected);
-  }
 };
 </script>
 <style lang="scss" scoped>

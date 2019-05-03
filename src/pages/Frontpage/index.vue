@@ -42,9 +42,12 @@
       <div class="calendar">
         <Calendar :markDate="signedDate" v-on:choseDay="clickDay"></Calendar>
       </div>
-      <div class="signIn_btn">
-        <mt-button @click="sign">{{
-          isSigned() ? "签到" : "已签到"
+      <div class="signIn_btn" >
+        <mt-button @click="sign" v-if="flag">{{
+         "签到" 
+        }}</mt-button>
+         <mt-button @click="sign" v-else-if="!flag">{{
+         "已签到" 
         }}</mt-button>
       </div>
     </div>
@@ -55,6 +58,7 @@
 import Footer from "../common/Footer/index";
 import Header from "../common/Header/index";
 import Calendar from "vue-calendar-component";
+import {Toast} from 'mint-ui';
 export default {
   data() {
     return {
@@ -62,7 +66,7 @@ export default {
       signedDate: [],
       date: "",
       user: {},
-      flag: false
+      flag:false
     };
   },
   components: { Header,Footer, Calendar },
@@ -71,7 +75,7 @@ export default {
       this.date = data; //选中某天
     },
     sign() {
-      if (!this.isSigned()) {
+      if (this.isSigned()) {
         this.addSignData();
       }
     },
@@ -91,16 +95,23 @@ export default {
     //判断今天是否签到
     isSigned() {
       let params = new URLSearchParams();
-      params.append("uname", this.user.uname);
+      let uname = JSON.parse(sessionStorage.getItem("userInfo")).uname;
+      params.append("uname",uname);
       this.$axios.post("/LogSystem/judgesign", params).then(res => {
-        if (res.data.keycode === 200) {
-          //已经签到
-          this.flag = true;
-          return this.flag;
-        } else {
-          return this.flag;
+        console.log(res.data);
+        if (res.data.keycode === 201) {
+          console.log(res.data.message);
+          //已签到
+          this.flag = false;
+        } else if(res.data.keycode === 200){
+          console.log(res.data.message);
+          //可以签到
+         this.flag = true;
         }
       });
+      console.log(this.flag);
+      return this.flag;
+      
     },
     //添加签到数据
     addSignData() {
@@ -109,14 +120,21 @@ export default {
       this.$axios.post("/LogSystem/addsign", params).then(res => {
         if (res.data.keycode === 200) {
           Toast(res.data.message);
+        this.flag=false;
         }
       });
     }
   },
   mounted() {
+    console.log("data",this.isSigned());
+    if(this.isSigned()){
+      this.flag = true;
+    }else{
+      this.flag = false;
+    };
     this.user = JSON.parse(sessionStorage.getItem("userInfo"));
     this.getSignData();
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>
