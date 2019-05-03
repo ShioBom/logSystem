@@ -12,6 +12,7 @@ import Toast from 'mint-ui/lib/toast';
 import 'mint-ui/lib/toast/style.css';
 import Button from "mint-ui/lib/button";
 import "mint-ui/lib/button/style.css";
+
 Vue.component(Toast.name, Toast)
 Vue.component(Button.name, Button);
 Vue.prototype.$axios = axios;

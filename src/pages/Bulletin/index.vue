@@ -7,6 +7,7 @@
     </div>
 </template>
 <script>
+
 import Header from '../common/Header'
 export default {
      data(){
@@ -17,6 +18,7 @@ export default {
     components:{Header}
 }
 </script>
+
 <style lang="scss" scoped>
 .bulletin{
     width: 100%;
