@@ -52,7 +52,7 @@ import TabContainerItem from "mint-ui/lib/tab-container-item";
 import "mint-ui/lib/tab-container-item/style.css";
 import Field from "mint-ui/lib/field";
 import "mint-ui/lib/field/style.css";
-import {Toast} from 'mint-ui';
+
 
 Vue.use(Field);
 Vue.component(Field.name, Field);

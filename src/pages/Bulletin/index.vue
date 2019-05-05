@@ -15,7 +15,7 @@
               @click="getNewsID(ind)"
             >
               <h3>{{ item.title }}</h3>
-              <p>{{ item.news_date }} <mt-button size="small" type="primary" @click.stop="deleteNews()">删除</mt-button></p>
+              <p>{{ item.news_date }} <mt-button size="small" type="primary" @click.stop="deleteNews(item)">删除</mt-button></p>
             </li>
           </ul>
         </mt-tab-container-item>
@@ -37,7 +37,7 @@
           <div class="detail">
             <h3>{{ detail.title }}</h3>
             <p>{{ detail.news_date }}</p>
-            <div class="news_content">
+            <div class="news_content" v-html="detail.news_context">
               {{ detail.news_context }}
             </div>
           </div>
@@ -47,6 +47,7 @@
   </div>
 </template>
 <script>
+import {Toast} from 'mint-ui';
 import Vue from "vue";
 import Header from "../common/Header";
 import Navbar from "mint-ui/lib/navbar";
@@ -74,47 +75,8 @@ export default {
       active: "1",
       text: "",//所发布公告的内容
       detail: {},
-      bulletins: [
-        {
-          news_context: "今日没公告",
-          news_date: "2019-07-02 20:30:30.0",
-          news_id: 2,
-          title: "公告2"
-        },
-        {
-          news_context: "闲来无事，发条公告玩玩",
-          news_date: "2019-06-09 21:11:11.0",
-          news_id: 3,
-          title: "无事"
-        },
-        {
-          news_context:
-            "2019年5月1日至4日放假调休，共4天。4月28日(星期日)、5月5日(星期日)上班。",
-          news_date: "2019-04-30 15:22:47.0",
-          news_id: 7,
-          title: "关于2019年“五一”放假安排的通知"
-        },
-        {
-          news_context:
-            "各部门注意，各部门注意，这是一场接口的测试演习，请做好准备！",
-          news_date: "2019-04-23 21:43:15.0",
-          news_id: 6,
-          title: "接口测试2"
-        },
-        {
-          news_context: "注意，这就是一场演戏",
-          news_date: "2019-04-23 21:41:14.0",
-          news_id: 5,
-          title: "接口测试"
-        },
-        {
-          news_context: "浮生偷得半日闲",
-          news_date: "2019-04-23 20:47:56.0",
-          news_id: 4,
-          title: "闲"
-        }
-      ],
-      componentStatus:true
+      bulletins: [],
+      componentStatus:JSON.parse(sessionStorage.getItem("userInfo")).position===2
     };
   },
   components: { Header },
@@ -124,14 +86,14 @@ export default {
       this.active = "3";
       this.detail = this.bulletins[num];
     },
-    //作品发布
+    //公告发布
     addNews() {
       console.log(this.text,this.newsTitle);
       let params = new URLSearchParams();
       params.append("title",this.newsTitle);
       params.append("news_context",this.text);
-      this.$axios.get("/LogSystem/addnews",params).then(res => {
-        if (res.data.status === 200) {
+      this.$axios.post("/LogSystem/addnews",params).then(res => {
+        if (res.data.keycode === 200) {
           Toast(res.data.message);
         }
       });
@@ -139,18 +101,20 @@ export default {
     //查询该条公告数据
     queryAllNews() {
       this.$axios.get("/LogSystem/findallnews").then(res => {
-        if (res.data.status === 200) {
+        if (res.data.keycode === 200) {
+          console.log(res.data.data);
           this.bulletins = res.data.data;
         }
       });
     },
     //删除该公告
-    deleteNews(){
-      console.log(this.detail.news_id);
+    deleteNews(item){
+      console.log(item.news_id);
       let params = new URLSearchParams();
-      params.append("title",this.detail.news_id);
-      this.$axios.get("/LogSystem//LogSystem/deletenewsbyid",params).then(res => {
-        if (res.data.status === 200) {
+
+      params.append("news_id",item.news_id);
+      this.$axios.post("/LogSystem/deletenewsbyid",params).then(res => {
+        if (res.data.keycode === 200) {
           Toast(res.data.message);
         }
       });
@@ -231,6 +195,7 @@ export default {
         background:white;
         padding: 0.1rem;
         line-height: 32px;
+        white-space:pre-wrap
       }
     }
     .addNews {
