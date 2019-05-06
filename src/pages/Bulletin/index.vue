@@ -1,6 +1,6 @@
 <template>
   <div class="bulletin">
-    <Header :title="title"></Header>
+    <Header :title="title" :left="'返回'"></Header>
     <div class="content">
       <mt-navbar v-model="active" value>
         <mt-tab-item id="1">公告列表</mt-tab-item>

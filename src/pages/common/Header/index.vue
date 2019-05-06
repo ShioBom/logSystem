@@ -1,16 +1,19 @@
 <template>
   <div class="header">
-    <span @click="back(url)">返回</span>
+    <span @click="back(url)">{{left}}</span>
     <span>{{ title }}</span>
-    <span></span>
+    <span @click="goback()">{{right}}</span>
   </div>
 </template>
 <script>
 export default {
-  props: ["title"],
+  props: ["title","right","left"],
   methods: {
       back(){
           this.$router.go(-1);
+      },
+      goback(){
+        this.$emit("goback");
       }
   },
 };
