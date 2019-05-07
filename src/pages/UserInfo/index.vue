@@ -8,12 +8,12 @@
           <li class="extra">
             <span class="left">姓名：</span>
             <span>何琳</span>
-            <span class="right">显示</span>
+            
           </li>
           <li class="extra">
             <span class="left">ID：</span>
             <span>23344</span>
-            <span class="right">显示</span>
+           
           </li>
           <li>
             <span class="left">编辑个人信息</span
@@ -24,7 +24,7 @@
             ><span class="right" @click="toggle(3)">〉</span>
           </li>
         </ul>
-        <mt-button type="default" size="large">退出</mt-button>
+        <mt-button type="default" size="large" @click="exit()">退出</mt-button>
       </mt-tab-container-item>
       <mt-tab-container-item id="2">
         <mt-field
@@ -116,6 +116,7 @@ export default {
     //退出登录
     exit() {
       sessionStorage.removeItem("userInfo");
+      this.$router.push("/");
     },
     toMyInfo() {
       this.active = "1";
