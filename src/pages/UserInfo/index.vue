@@ -80,8 +80,8 @@ export default {
       user: JSON.parse(sessionStorage.getItem("userInfo")),
       title: "我的",
       realname: "",
-      sex: "1", //性别
-      age: "",
+      sex:"", //性别
+      age:"",
       tel: "",
       prepass: "", //以前的密码
       newpass: "", //新密码
@@ -114,6 +114,7 @@ export default {
       this.$axios.post("/LogSystem/modifyuser", params).then(res => {
         if (res.data.keycode === 200) {
           Toast(res.data.message);
+          this.queryUser()
         }
       });
     },
@@ -135,7 +136,7 @@ export default {
             this.$axios
               .post("http://localhost:30001/LogSystem/modifyuser", params)
               .then(res => {
-                if (res.data.code === 200) {
+                if (res.data.keycode === 200) {
                   Toast(res.data.message);
                 }
               });
@@ -143,10 +144,25 @@ export default {
         }
       });
     },
-    //判断修改密码的是不是本人
-    judge() {}
+    queryUser(){
+      let params = new URLSearchParams();
+            params.append("uname", this.user.uname);
+            this.$axios
+              .post("/LogSystem/finduserbyname", params)
+              .then(res => {
+                if (res.data.keycode === 200) {
+                  this.realname = res.data.data.realname;
+                  this.sex = String(res.data.data.sex);
+                  console.log(res.data.data);
+                  
+                  this.age = res.data.data.age;
+                  this.tel = res.data.data.tel;
+                }
+              });
+    }
   },
   mounted() {
+    this.queryUser();
     if (this.active === "2") {
       this.updateUserInfo();
     } else if (this.active === "3") {
