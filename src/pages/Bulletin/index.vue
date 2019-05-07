@@ -15,7 +15,7 @@
               @click="getNewsID(ind)"
             >
               <h3>{{ item.title }}</h3>
-              <p>{{ item.news_date }} <mt-button size="small" type="primary" @click.stop="deleteNews(item)">删除</mt-button></p>
+              <p>{{ item.news_date }} <mt-button v-if="componentStatus" size="small" type="primary" @click.stop="deleteNews(item)">删除</mt-button></p>
             </li>
           </ul>
         </mt-tab-container-item>

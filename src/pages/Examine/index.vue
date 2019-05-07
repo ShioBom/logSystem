@@ -6,11 +6,11 @@
         <li v-for="(item, ind) in data" :key="ind">
           <p>{{ item.realname }}</p>
           <div>
-            <span>{{ item.department }}</span>
-            <span>{{ item.position }}</span>
+            <span>{{ item.dname}}</span>
+            <span>{{ item.pname }}</span>
             <span
-              ><mt-button type="default" @click="reject(ind)">拒绝</mt-button
-              ><mt-button type="default" @click="agree(ind)">通过</mt-button></span
+              ><mt-button type="default" @click="reject(item,ind)">拒绝</mt-button
+              ><mt-button type="default" @click="agree(item,ind)">通过</mt-button></span
             >
           </div>
         </li>
@@ -24,26 +24,25 @@ export default {
   data() {
     return {
       title: "在线审批",
-      data: [{ realname: "何琳", position: "主管", department: "部门1" },
-      { realname: "111", position: "主管", department: "部门2" }]
+      data: []
     };
   },
   components: { Header },
   methods: {
-    reject(ind) {
+    reject(item,ind) {
       let params = new URLSearchParams();
-      params.append("password", this.prepass);
-      this.$axios.post("", params).then(res => {
+      params.append("uname", item.uname);
+      this.$axios.post("/LogSystem/deleteuser", params).then(res => {
           if(res.data.keycode===200){
               this.data.splice(ind,1);
           }
       });
 
     },
-    agree() {
+    agree(item,ind) {
       let params = new URLSearchParams();
-      params.append("password", this.prepass);
-      this.$axios.post("", params).then(res => {
+      params.append("uname",item.uname );
+      this.$axios.post("/LogSystem/modifystatus1", params).then(res => {
            if(res.data.keycode===200){
               this.data.splice(ind,1);
           }
@@ -51,8 +50,8 @@ export default {
     },
     getData(){
         let params = new URLSearchParams();
-      params.append("password", this.prepass);
-      this.$axios.post("", params).then(res => {
+      params.append("uname", JSON.parse(sessionStorage.getItem("userInfo")).uname);
+      this.$axios.post("/LogSystem/finduserstatus0", params).then(res => {
            if(res.data.keycode===200){
               this.data=res.data.data;
           }
