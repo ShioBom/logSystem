@@ -142,6 +142,9 @@ export default {
               });
           }
         }
+        else{
+          Toast("原密码输入错误！");
+        }
       });
     },
     queryUser(){

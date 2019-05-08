@@ -26,7 +26,7 @@
             <dd class="info-item">真实姓名：{{ employee.realname }}</dd>
             <dd class="info-item">部门： {{ employee.dname }}</dd>
             <dd class="info-item">职位： {{ employee.pname }}</dd>
-            <dd class="info-item">性别： {{ employee.sex ? "女" : "男" }}</dd>
+            <dd class="info-item">性别： {{ employee.sex=='女' ? "女" : "男" }}</dd>
             <dd class="info-item">电话号码：{{ employee.tel }}</dd>
             <dd>
               <mt-button type="primary" size="large" @click="goUpdate()"
@@ -59,15 +59,15 @@
                <dd>
               <mt-radio
                 title="职位："
-                v-model="department"
+                v-model="position"
                 :options="[
                   {
-                    label: '普通员工',
-                    value: '0'
+                    label: '普通职员',
+                    value: '普通职员'
                   },
                   {
                     label: '部门经理',
-                    value: '1'
+                    value: '部门经理'
                   }
                 ]"
               ></mt-radio>
@@ -79,11 +79,11 @@
                 :options="[
                   {
                     label: '男',
-                    value: '0'
+                    value: '男'
                   },
                   {
                     label: '女',
-                    value: '1'
+                    value: '女'
                   }
                 ]"
               ></mt-radio>
@@ -109,44 +109,18 @@
 </template>
 <script>
 import Header from "../common/Header";
+import { Toast } from "mint-ui";
 export default {
   data() {
     return {
       title: "员工管理",
       active: "1",
       employee: {},
-      staff: [
-        {
-          uname: "何琳",
-          realname: "lina",
-          position_id:'1',
-          department_id:'1',
-          sex: 0,
-          dname: "销售部",
-          pname: "销售总监",
-          tel: "15292061516"
-        },
-        {
-          uname: "如花",
-          sex: 1,
-          position_id:'0',
-          department_id:'0',
-          realname: "Linda",
-          dname: "人事部",
-          pname: "人事A",
-          tel: "13778310906"
-        }
-      ],
-      options:[{
-                    label: '部门一',
-                    value: '11'
-                  },{
-                    label: '部门二',
-                    value: '113'
-                  },],
+      staff: [],
+      options:[],
       realname:"",
       sex:"0",
-      department:"1",
+      department:"",
       position:"",
       tel:"",
     };
@@ -162,41 +136,55 @@ export default {
       }
     },
     goDetail(ind) {
-      console.log(ind);
       this.employee = this.staff[ind];
       this.active = "2";
       this.title = "员工信息详情";
     },
+    getStaffInfo(){
+      console.log("111");
+      
+      let params = new URLSearchParams();
+      params.append("uname", JSON.parse(sessionStorage.getItem("userInfo")).uname);
+      this.$axios.post("/LogSystem/findalluser", params).then(res => {
+        if (res.data.keycode === 200) {
+          this.staff = res.data.data;
+        }
+      });
+    },
     //删除员工信息
     del() {
       let params = new URLSearchParams();
-      params.append("uname", this.user.uname);
-      this.$axios.post("", params).then(res => {
+      params.append("uname", this.employee.uname);
+      this.$axios.post("/LogSystem/deleteuser", params).then(res => {
         if (res.data.keycode === 200) {
-          Toast(res.data.message);
+          Toast("员工删除成功");
         }
       });
     },
     //跳转到修改页面
     goUpdate() {
+      console.log(this.employee);
+      
+      this.options=[];
       this.active = "3";
       this.title = "修改员工信息";
       this.getDepart();
       this.realname = this.employee.realname;
-      this.sex = String(this.employee.sex);
+      this.sex = this.employee.sex;
       this.tel = this.employee.tel;
-      this.department = String(this.employee.department_id);
-      this.position = String(this.employee.position_id);
+      this.department = this.employee.dname;
+      this.position = this.employee.pname;
     },
     //修改员工信息
     update(){
         let params = new URLSearchParams();
+        params.append("uname",JSON.parse(sessionStorage.getItem("userInfo")).uname);
         params.append("realname", this.realname);
         params.append("dname", this.department);
         params.append("pname", this.position);
         params.append("sex", this.sex);
         params.append("tel", this.tel);
-        this.$axios.post("", params).then(res => {
+        this.$axios.post("/LogSystem/modifyuser", params).then(res => {
           if (res.data.keycode === 200) {
             Toast(res.data.message);
           }
@@ -207,16 +195,19 @@ export default {
         let params = new URLSearchParams();
         this.$axios.get("/LogSystem/findalldepartment").then(res => {
           if (res.data.keycode === 200) {
-            res.data.result.forEach(ele => {
+            res.data.data.forEach(ele => {
                 let option = {
                     label:ele.dname,
-                    value:ele.department_id
+                    value:String(ele.dname)
                 };
                 this.options.push(option);
             });
           }
         });
     }
+  },
+  mounted(){
+    this.getStaffInfo();
   }
 };
 </script>
