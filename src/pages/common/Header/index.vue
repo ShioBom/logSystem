@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <span @click="back(url)">{{left}}</span>
+    <span @click="back()">{{left}}</span>
     <span>{{ title }}</span>
     <span @click="goback()">{{right}}</span>
   </div>
@@ -10,10 +10,14 @@ export default {
   props: ["title","right","left"],
   methods: {
       back(){
+        if(this.left){
           this.$router.go(-1);
+        }
       },
       goback(){
-        this.$emit("goback");
+        if(this.right){
+         this.$emit("goback");
+        }
       }
   },
 };
