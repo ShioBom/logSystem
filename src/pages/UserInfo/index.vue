@@ -1,6 +1,6 @@
 <template>
   <div class="mine">
-    <Header :title="title" :right="'×'" @goback="toMyInfo"></Header>
+    <Header :title="title" :right="active!=='1'?'×':null" @goback="toMyInfo"></Header>
 
     <mt-tab-container v-model="active">
       <mt-tab-container-item id="1">
@@ -171,7 +171,9 @@ export default {
     } else if (this.active === "3") {
       this.updatePass();
     }
+
   }
+  
 };
 </script>
 <style lang="scss" scoped>

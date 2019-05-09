@@ -1,5 +1,5 @@
 <template>
-  <li class="logItem">
+  <li class="logItem" @click="fn()">
     <p>
       <span class="username">{{ log.uname }}</span
       ><span class="date">{{ log.log_date }}</span>
@@ -11,7 +11,12 @@
 </template>
 <script>
 export default {
-  props: ["log"]
+  props: ["log"],
+  methods:{
+    fn(){
+      this.$emit("goDetail");
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -41,8 +46,9 @@ export default {
     background: #e8e8e8;
     font-size: 16px;
     line-height: 18px;
-    text-indent: 32px;
     padding: 0.1rem;
+    white-space:pre-wrap
+
   }
 }
 </style>
