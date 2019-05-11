@@ -124,6 +124,9 @@ export default {
       let params = new URLSearchParams();
       params.append("uname", this.user.uname);
       this.$axios.post("LogSystem/findlogbyname", params).then(res => {
+        if(res.data.keycode === 202){
+          Toast(res.data.message);
+        }
         if (res.data.keycode === 200) {
           this.ownlogs = res.data.data;
         }
