@@ -79,11 +79,11 @@
                 :options="[
                   {
                     label: '男',
-                    value: '男'
+                    value: '0'
                   },
                   {
                     label: '女',
-                    value: '女'
+                    value: '1'
                   }
                 ]"
               ></mt-radio>
@@ -178,12 +178,15 @@ export default {
     //修改员工信息
     update(){
         let params = new URLSearchParams();
-        params.append("uname",JSON.parse(sessionStorage.getItem("userInfo")).uname);
+        //params.append("uname",JSON.parse(sessionStorage.getItem("userInfo")).uname);
+        params.append("uname", this.uname);
         params.append("realname", this.realname);
         params.append("dname", this.department);
         params.append("pname", this.position);
         params.append("sex", this.sex);
         params.append("tel", this.tel);
+        console.log(params);
+        
         this.$axios.post("/LogSystem/modifyuser", params).then(res => {
           if (res.data.keycode === 200) {
             Toast(res.data.message);

@@ -116,6 +116,8 @@ export default {
       this.$axios.post("LogSystem/addlog", params).then(res => {
         if (res.data.keycode === 200) {
           Toast(res.data.message);
+        }else{
+          Toast(res.data.message);
         }
       });
     },
@@ -170,7 +172,6 @@ export default {
         if (res.data.keycode === 200) {
           this.comment = res.data.data;
           console.log(this.comment);
-          
         }
       });
     },
