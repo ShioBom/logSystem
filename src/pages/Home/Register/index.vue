@@ -12,12 +12,12 @@
       </li>
       <li>
         <span>★</span>
-        <input type="text" placeholder="请输入密码" />
+        <input type="password" placeholder="请输入密码" />
       </li>
       <li>
         <span>★</span>
         <input
-          type="text"
+          type="password"
           placeholder="请再次输入密码"
           @input="getPass($event)"
         />
@@ -85,6 +85,9 @@ export default {
     };
   },
   methods: {
+    toLogin(){
+      this.$emit("login")
+    },
     getJobValue(e) {
       this.user.position = e.target.value;
       this.isUserExist();
@@ -134,7 +137,7 @@ export default {
       this.$axios.post("/LogSystem/adduser", params).then(res => {
         if(res.data.keycode===200){
           Toast(res.data.message);
-          this.$router.push("/login");
+          this.toLogin();
         }else{
           Toast(res.data.message);
         }

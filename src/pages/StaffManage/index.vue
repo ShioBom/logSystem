@@ -63,11 +63,11 @@
                 :options="[
                   {
                     label: '普通职员',
-                    value: '普通职员'
+                    value: '0'
                   },
                   {
                     label: '部门经理',
-                    value: '部门经理'
+                    value: '1'
                   }
                 ]"
               ></mt-radio>
@@ -172,24 +172,25 @@ export default {
       this.realname = this.employee.realname;
       this.sex = this.employee.sex=='男'?'0':'1';
       this.tel = this.employee.tel;
-      this.department = this.employee.dname;
-      this.position = this.employee.pname;
+      this.department = String(this.employee.department_id);
+      this.position = this.employee.pname=='普通职员'?'0':'1';
     },
     //修改员工信息
     update(){
         let params = new URLSearchParams();
         console.log();
-        
         params.append("uname",this.employee.uname);
+        params.append("department_id",this.department);
         params.append("realname", this.realname);
-        params.append("dname", this.department);
-        params.append("pname", this.position);
+        params.append("position", this.position);
         params.append("sex", this.sex);
         params.append("tel", this.tel);
         console.log(params);
         
         this.$axios.post("/LogSystem/modifyuser", params).then(res => {
           if (res.data.keycode === 200) {
+            Toast(res.data.message);
+          }else{
             Toast(res.data.message);
           }
         });
@@ -202,10 +203,12 @@ export default {
             res.data.data.forEach(ele => {
                 let option = {
                     label:ele.dname,
-                    value:String(ele.dname)
+                    value:String(ele.department_id)
                 };
                 this.options.push(option);
+                
             });
+                console.log(this.options);
           }
         });
     }

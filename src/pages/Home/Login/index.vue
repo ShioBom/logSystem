@@ -7,7 +7,7 @@
       </li>
       <li>
         <span>★</span>
-        <input type="text" placeholder="请输入密码" @input="getPass($event)">
+        <input type="password" placeholder="请输入密码" @input="getPass($event)">
       </li>
     </ul>
     <div class="btn" @click="login()">登录</div>

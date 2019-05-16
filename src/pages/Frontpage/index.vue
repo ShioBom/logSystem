@@ -1,6 +1,13 @@
 <template>
   <div class="frontpage">
     <Header :title="title"></Header>
+    <!-- 弹窗 -->
+    <mt-popup v-model="popupVisible" closeOnClickModal="true">
+        <div class="todayLog">
+          <h3>日期：{{this.todayLog.log_date}}</h3>
+          <p>{{this.todayLog.log_context}}</p>
+        </div>
+      </mt-popup>
     <!-- 菜单栏 -->
     <div class="menu">
       <div>
@@ -55,9 +62,13 @@
   </div>
 </template>
 <script>
+import Vue from "vue";
 import Footer from "../common/Footer/index";
 import Header from "../common/Header/index";
 import Calendar from "vue-calendar-component";
+import Popup from "mint-ui/lib/popup";
+import "mint-ui/lib/popup/style.css";
+Vue.component(Popup.name, Popup);
 import {Toast} from 'mint-ui';
 export default {
   data() {
@@ -67,13 +78,30 @@ export default {
       date: "",
       user: {},
       flag:false,
+      popupVisible:false,
       flag2:JSON.parse(sessionStorage.getItem("userInfo")).position,
+      todayLog:""
     };
   },
   components: { Header,Footer, Calendar },
   methods: {
     clickDay(data) {
-      this.date = data; //选中某天
+      let date = data.replace(/\//g,"-");
+      //准备参数
+       let params = new URLSearchParams();
+      params.append("uname", this.user.uname);
+      params.append("date",date);
+      console.log("参数：",this.user.uname,date);
+      
+      this.$axios.post("/LogSystem/findlogbydate",params).then(res=>{
+        if(res.data.keycode===200){
+          this.todayLog=res.data.data;
+          this.popupVisible = true;
+          console.log(this.todayLog);
+        }else{
+          Toast(res.data.message);
+        }
+      })
     },
     sign() {
       if (this.isSigned()) {
@@ -139,6 +167,23 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.todayLog{
+    width: 100%;
+    height: 100%;
+    background:lightcyan;
+    h3{
+      height: .4rem;
+      padding: 0 .1rem;
+      line-height: .4rem;
+      color: #49beb7;
+    }
+    p{
+      padding: .1rem;
+        white-space:pre-wrap;
+        font-size: 16px;
+        line-height: 24px;
+    }
+  }
 .menu {
   position: absolute;
   top: 0.6rem;
@@ -176,6 +221,7 @@ dt img {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  
 }
 span {
   margin: 8px;
@@ -219,6 +265,10 @@ span {
     background: green;
     border-radius: 100px;
   }
+}
+.mint-popup{
+  width: 100%;
+  height: 60%;
 }
 </style>
 

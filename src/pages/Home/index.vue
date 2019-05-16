@@ -8,7 +8,7 @@
             </nav>
         </div>
         <Login v-if="logStatus==='active'"></Login>
-        <Register v-if="regiStatus==='active'"></Register>
+        <Register v-if="regiStatus==='active'"  @login="login()"></Register>
     </div>
 </template>
 <script>

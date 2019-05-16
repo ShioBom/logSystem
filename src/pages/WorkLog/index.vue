@@ -18,6 +18,7 @@
               @goDetail="goDetail(ind,'ownlogs')"
             ></LogItem>
           </ul>
+          
         </mt-tab-container-item>
         <mt-tab-container-item v-if="userStatus" id="2">
           <ul>
@@ -58,8 +59,9 @@
           </div>
         </mt-tab-container-item>
       </mt-tab-container>
+
     </div>
-    <div class="export">
+    <div class="export" v-if="selected==='1'">
       <input type="date" v-model="startDate">至
       <input type="date" v-model="endDate">
       <button @click="exportLog()">导出</button>
