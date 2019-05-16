@@ -59,6 +59,11 @@
         </mt-tab-container-item>
       </mt-tab-container>
     </div>
+    <div class="export">
+      <input type="date" v-model="startDate">至
+      <input type="date" v-model="endDate">
+      <button @click="exportLog()">导出</button>
+    </div>
   </div>
 </template>
 <script>
@@ -97,16 +102,33 @@ export default {
       ownlogs: [],
       logs: [],
       logtext: "",
-      comment:"",
+      comment: "",
       componentStatus: true,
       logDetail: "",
       comment_context: "", //评论内容
-      commentboxStatus:false
+      commentboxStatus: false,
+      startDate:"",//日志导出 开始日期
+      endDate:"",//日志导出 结束日期
     };
   },
-  
+
   components: { Header, LogItem },
   methods: {
+    //导出日志
+    exportLog(){
+      let params = new URLSearchParams();
+      params.append("uname", this.user.uname);
+      params.append("beginDate", this.startDate);
+      params.append("endDate", this.endDate);
+      this.$axios.post("/LogSystem/exportlog",params).then(res=>{
+        if(res.data.keycode===200){
+          Toast(res.data.message);
+        }else{
+          Toast("日志导出失败")
+        }
+      })
+      
+    },
     //添加日志
     addLog() {
       console.log("日志内容", this.logtext);
@@ -116,7 +138,7 @@ export default {
       this.$axios.post("LogSystem/addlog", params).then(res => {
         if (res.data.keycode === 200) {
           Toast(res.data.message);
-        }else{
+        } else {
           Toast(res.data.message);
         }
       });
@@ -126,7 +148,7 @@ export default {
       let params = new URLSearchParams();
       params.append("uname", this.user.uname);
       this.$axios.post("LogSystem/findlogbyname", params).then(res => {
-        if(res.data.keycode === 202){
+        if (res.data.keycode === 202) {
           Toast(res.data.message);
         }
         if (res.data.keycode === 200) {
@@ -142,7 +164,6 @@ export default {
         if (res.data.keycode === 200) {
           this.logs = res.data.data;
           console.log(this.logs);
-          
         }
       });
     },
@@ -184,9 +205,9 @@ export default {
       params.append("log_id", this.logDetail.log_id);
       this.$axios.post("/LogSystem/addcomment", params).then(res => {
         if (res.data.keycode === 200) {
-          this.commentboxStatus=true;
+          this.commentboxStatus = true;
           Toast(res.data.message);
-           this.getReview();
+          this.getReview();
         }
       });
     }
@@ -216,22 +237,22 @@ export default {
   .mint-tab-container {
     height: 100%;
   }
-
   .mint-tab-container-item {
     max-height: 5.61rem;
     overflow-y: auto;
   }
   .detail {
-    .mint-field {
-  height: 0.4rem;
-  border-radius: 0.2rem;
-  border: 1px solid #999;
-}
     height: 100%;
     min-height: 6.07rem;
     width: 100%;
     position: relative;
     background: #e8e8e8;
+    .mint-field {
+      height: 0.4rem;
+      border-radius: 0.2rem;
+      border: 1px solid #999;
+    }
+
     .user {
       color: #17c0eb;
       font-weight: 600;
@@ -282,6 +303,26 @@ export default {
         height: 0.5rem;
       }
     }
+  }
+}
+.export {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: white;
+  height: .5rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  input{
+    width: 1.25rem;
+    height: 70%;
+    border: 1px solid #ccc;
+  }
+  button{
+    font-size: 16px;
+    padding: .1rem;
   }
 }
 </style>

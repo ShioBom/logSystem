@@ -19,7 +19,7 @@
         </dl>
        </router-link>
       </div>
-      <div>
+      <div v-if="flag2">
        <router-link to="/Examine">
         <dl>
           <dt><img src="../../assets/img/index/approve.jpg" alt="" /></dt>
@@ -27,7 +27,7 @@
         </dl>
        </router-link>
       </div>
-      <div>
+      <div v-if="flag2">
        <router-link to="/StaffManage">
         <dl>
           <dt><img src="../../assets/img/index/contacts.jpg" alt="" /></dt>
@@ -66,7 +66,8 @@ export default {
       signedDate: [],
       date: "",
       user: {},
-      flag:false
+      flag:false,
+      flag2:JSON.parse(sessionStorage.getItem("userInfo")).position,
     };
   },
   components: { Header,Footer, Calendar },

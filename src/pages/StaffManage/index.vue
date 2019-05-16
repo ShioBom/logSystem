@@ -170,7 +170,7 @@ export default {
       this.title = "修改员工信息";
       this.getDepart();
       this.realname = this.employee.realname;
-      this.sex = this.employee.sex;
+      this.sex = this.employee.sex=='男'?'0':'1';
       this.tel = this.employee.tel;
       this.department = this.employee.dname;
       this.position = this.employee.pname;
@@ -178,8 +178,9 @@ export default {
     //修改员工信息
     update(){
         let params = new URLSearchParams();
-        //params.append("uname",JSON.parse(sessionStorage.getItem("userInfo")).uname);
-        params.append("uname", this.uname);
+        console.log();
+        
+        params.append("uname",this.employee.uname);
         params.append("realname", this.realname);
         params.append("dname", this.department);
         params.append("pname", this.position);

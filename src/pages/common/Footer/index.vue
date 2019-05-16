@@ -1,7 +1,6 @@
 <template>
     <div class="footer">
         <router-link to="/index">首页</router-link>
-        <router-link to="/message">消息</router-link>
         <router-link to="/UserInfo">我的</router-link>
     </div>
 </template>
