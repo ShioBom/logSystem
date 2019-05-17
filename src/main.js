@@ -16,7 +16,8 @@ import "mint-ui/lib/button/style.css";
 Vue.component(Toast.name, Toast)
 Vue.component(Button.name, Button);
 Vue.prototype.$axios = axios;
-axios.defaults.baseURL="http://localhost:30001";
+//axios.defaults.baseURL="http://localhost:30001";
+axios.defaults.baseURL="http://192.168.137.1:30001";
 new Vue({
   el: '#app',
   axios,
