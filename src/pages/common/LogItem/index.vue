@@ -47,8 +47,8 @@ export default {
     font-size: 16px;
     line-height: 18px;
     padding: 0.1rem;
-    white-space:pre-wrap
-
+    white-space:pre-wrap;
+    overflow: hidden;
   }
 }
 </style>
