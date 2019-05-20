@@ -118,17 +118,23 @@ export default {
   methods: {
     //导出日志
     exportLog(){
-      let params = new URLSearchParams();
+      /*let params = new URLSearchParams();
       params.append("uname", this.user.uname);
       params.append("beginDate", this.startDate);
-      params.append("endDate", this.endDate);
+      params.append("endDate", this.endDate);*/
+      var uname = this.user.uname;
+      var beginDate = this.startDate;
+      var endDate = this.endDate;
+      var baseUrl = Vue.prototype.$axios.defaults.baseURL;
+      window.open(baseUrl+"/LogSystem/exportlog?uname="+uname+"&beginDate="+beginDate+"&endDate="+endDate);
+      /*
       this.$axios.post("/LogSystem/exportlog",params).then(res=>{
         if(res.data.keycode===200){
           Toast(res.data.message);
         }else{
           Toast("日志导出失败")
         }
-      })
+      })*/
       
     },
     //添加日志
@@ -236,7 +242,6 @@ export default {
   left: 0;
   bottom: 0;
   right: 0;
-  overflow: hidden;
   .mint-tab-container {
     height: 100%;
   }
