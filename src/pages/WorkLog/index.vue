@@ -122,19 +122,19 @@ export default {
       params.append("uname", this.user.uname);
       params.append("beginDate", this.startDate);
       params.append("endDate", this.endDate);*/
+      console.log("daochu");
       var uname = this.user.uname;
       var beginDate = this.startDate;
       var endDate = this.endDate;
-      var baseUrl = Vue.prototype.$axios.defaults.baseURL;
-      window.open(baseUrl+"/LogSystem/exportlog?uname="+uname+"&beginDate="+beginDate+"&endDate="+endDate);
-      /*
-      this.$axios.post("/LogSystem/exportlog",params).then(res=>{
-        if(res.data.keycode===200){
-          Toast(res.data.message);
-        }else{
-          Toast("日志导出失败")
-        }
-      })*/
+      
+      if(endDate == "" || beginDate == ""){
+        Toast("日期不能为空");
+      }else if(endDate <= beginDate){
+        Toast("起止日期格式错误")
+      }else{
+         var baseUrl = Vue.prototype.$axios.defaults.baseURL;
+         window.open(baseUrl+"/LogSystem/exportlog?uname="+uname+"&beginDate="+beginDate+"&endDate="+endDate);
+      }
       
     },
     //添加日志
